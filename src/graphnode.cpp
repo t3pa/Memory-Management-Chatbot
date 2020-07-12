@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "graphedge.h"
 #include "graphnode.h"
 
@@ -10,8 +12,13 @@ GraphNode::~GraphNode()
 {
     //// STUDENT CODE
     ////
+    std::cout << "GraphNode Destructor" << std::endl;
 
-    delete _chatBot; 
+    // if (_chatBot != nullptr)
+    // {
+      // delete _chatBot; 
+      // _chatBot = nullptr;
+    // }
 
     ////
     //// EOF STUDENT CODE
