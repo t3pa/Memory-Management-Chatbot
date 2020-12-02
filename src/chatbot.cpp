@@ -45,6 +45,84 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+// copy constructor
+ChatBot::ChatBot(const ChatBot &source)
+{
+  std::cout << "ChatBot Copy Constructor" << std::endl;
+  // deep copy of Bitmap
+  if (source._image != NULL)
+  {
+    _image = new wxBitmap();
+    *_image = source._image->GetSubBitmap(
+                     wxRect(0, 0, source._image->GetWidth(), source._image->GetHeight()));
+                     
+  }
+  else
+    _image = NULL;
+  // other handles are shared, not owned
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  _currentNode = source._currentNode;  
+}
+
+// copy assignment operator
+ChatBot &ChatBot::operator=(const ChatBot &source)
+{
+  std::cout << "ChatBot Copy Constructor" << std::endl;
+  if (this == &source)
+    return *this;
+  if (source._image != NULL)
+  {
+    _image = new wxBitmap();
+    *_image = source._image->GetSubBitmap(
+                     wxRect(0, 0, source._image->GetWidth(), source._image->GetHeight()));
+                     
+  }
+  else
+    _image = NULL;
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  _currentNode = source._currentNode;   
+}
+
+// move constructor
+ChatBot::ChatBot(ChatBot &&source)
+{
+  std::cout << "ChatBot Move Constructor" << std::endl;
+  // acquire source data
+  _image = source._image;
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  _currentNode = source._currentNode;
+  // reset all pointers in the source
+  source._image = NULL;
+  source._chatLogic = nullptr;
+  source._rootNode = nullptr;
+  source._currentNode = nullptr;  
+}
+
+ChatBot &ChatBot::operator=(ChatBot &&source)
+{
+  std::cout << "ChatBot Move Assignment Constructor" << std::endl;
+  if (this == &source)  // guard against self assignment
+      return *this;
+  // delete current data
+  delete _image;
+  delete _chatLogic;
+  delete _rootNode;
+  delete _currentNode;
+  // acquire source data
+  _image = source._image;
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  _currentNode = source._currentNode;
+  // reset all pointers in the source
+  source._image = NULL;
+  source._chatLogic = nullptr;
+  source._rootNode = nullptr;
+  source._currentNode = nullptr;    
+}
+
 ////
 //// EOF STUDENT CODE
 
