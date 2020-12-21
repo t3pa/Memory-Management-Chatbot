@@ -38,13 +38,7 @@ ChatLogic::~ChatLogic()
     {
       delete _chatBot;
       _chatBot = nullptr;
-    }
-
-    // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        delete *it;
-    }
+    }   
 
     ////
     //// EOF STUDENT CODE
@@ -158,18 +152,17 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](std::unique_ptr<GraphNode> &node) { return node->GetID() == std::stoi(parentToken->second); });
                             auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](std::unique_ptr<GraphNode> &node) { return node->GetID() == std::stoi(childToken->second); });
 
-                            // create new edge
-                            GraphEdge *edge = new GraphEdge(id);
+                            // create new unique edge                           
+                            std::unique_ptr<GraphEdge> edge(new GraphEdge(id));
                             edge->SetChildNode(childNode->get());
-                            edge->SetParentNode(parentNode->get());
-                            _edges.push_back(edge);
+                            edge->SetParentNode(parentNode->get());                            
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
                             // store reference in child node and parent node
-                            (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+                            (*childNode)->AddEdgeToParentNode(edge.get());     // do not transfer ownership
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge)); // transfer ownership of edge to node
                         }
 
                         ////
