@@ -94,6 +94,7 @@ ChatBot::ChatBot(ChatBot &&source)
   _chatLogic = source._chatLogic;
   _rootNode = source._rootNode;
   _currentNode = source._currentNode;
+  _chatLogic->SetChatbotHandle(this);
   // reset all pointers in the source
   source._image = NULL;
   source._chatLogic = nullptr;
@@ -107,15 +108,14 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
   if (this == &source)  // guard against self assignment
       return *this;
   // delete current data
-  delete _image;
-  delete _chatLogic;
-  delete _rootNode;
-  delete _currentNode;
+  if (_image)
+    delete _image; 
   // acquire source data
   _image = source._image;
   _chatLogic = source._chatLogic;
   _rootNode = source._rootNode;
   _currentNode = source._currentNode;
+  _chatLogic->SetChatbotHandle(this);
   // reset all pointers in the source
   source._image = NULL;
   source._chatLogic = nullptr;
