@@ -171,7 +171,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // create a ChatBot on the stack  
-    ChatBot chatBot("../project3/images/chatbot.png"); 
+    ChatBot chatBot("../images/chatbot.png"); 
     chatBot.SetChatLogicHandle(this);   // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
     chatBot.SetRootNode(rootNode);      // add chatbot to graph root node    
     SetChatbotHandle(&chatBot);         // keep a handle
